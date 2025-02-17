@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Expense</title>
+</head>
+<body>
+<h1>Add Expense</h1>
+<form th:action="@{/add-expense}" method="post" th:object="${expense}">
+    <input type="text" th:field="*{description}" placeholder="Description" required>
+    <input type="number" th:field="*{amount}" placeholder="Amount" required>
+    <input type="date" th:field="*{date}" placeholder="Date" required>
+    <input type="text" th:field="*{category}" placeholder="Category" required>
+    <button type="submit">Add Expense</button>
+</form>
+<a th:href="@{/home}">Back to Home</a>
+</body>
+</html>

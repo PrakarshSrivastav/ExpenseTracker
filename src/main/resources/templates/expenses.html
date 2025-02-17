@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Your Expenses</title>
+</head>
+<body>
+<h1>Your Expenses</h1>
+<a th:href="@{/home}">Back to Home</a>
+<a th:href="@{/add-expense}">Add New Expense</a>
+
+<table>
+    <thead>
+    <tr>
+        <th>Description</th>
+        <th>Amount</th>
+        <th>Date</th>
+        <th>Category</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="expense : ${expenses}">
+        <td th:text="${expense.description}"></td>
+        <td th:text="${expense.amount}"></td>
+        <td th:text="${#temporals.format(expense.date, 'dd-MM-yyyy')}"></td>
+        <td th:text="${expense.category}"></td>
+        <td>
+            <a th:href="@{/edit-expense/{id}(id=${expense.id})}">Edit</a>
+            <a th:href="@{/delete-expense/{id}(id=${expense.id})}">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Logout</button>
+</form>
+</body>
+</html>
