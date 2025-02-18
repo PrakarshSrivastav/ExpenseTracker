@@ -30,4 +30,18 @@ public class ExpenseServiceImpl implements ExpenseService {
         expense.setUser(user);
         expenseRepository.save(expense);
     }
+
+    @Override
+    public double getTotalExpensesByUsername(String username) {
+        List<Expense> expenses=expenseRepository.findByUser_Username(username);
+        return expenses.stream().mapToDouble(Expense::getAmount).sum();
+    }
+
+
+    @Override
+    public void deleteExpense(Long expenseId, String username) {
+        Expense expense = (Expense) expenseRepository.findByIdAndUser_Username(expenseId, username)
+                .orElseThrow(() -> new RuntimeException("Expense not found or you do not have permission to delete it"));
+        expenseRepository.delete(expense);
+    }
 }

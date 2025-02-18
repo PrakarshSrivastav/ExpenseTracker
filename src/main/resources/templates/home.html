@@ -2,10 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Home</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
 <h1>Welcome, <span th:text="${#authentication.name}"></span>!</h1>
-<a th:href="@{/add-expense}">Add Expense</a>
+<a th:href="@{/add-expense}">Add New Expense</a>
+
 <h2>Your Expenses</h2>
 <table>
     <thead>
@@ -14,17 +16,27 @@
         <th>Amount</th>
         <th>Date</th>
         <th>Category</th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="expense : ${expenses}">
         <td th:text="${expense.description}"></td>
         <td th:text="${expense.amount}"></td>
-        <td th:text="${expense.date}"></td>
+        <td th:text="${#temporals.format(expense.date, 'dd-MM-yyyy')}"></td>
         <td th:text="${expense.category}"></td>
+        <td>
+            <form th:action="@{/delete-expense}" method="post">
+                <input type="hidden" name="expenseId" th:value="${expense.id}">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>
+
+<h3>Total Amount Spent: <span th:text="${totalExpenses}"></span></h3>
+
 <form th:action="@{/logout}" method="post">
     <button type="submit">Logout</button>
 </form>
